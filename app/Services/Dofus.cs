@@ -184,22 +184,24 @@ namespace app.Services
         private static async Task<bool> ActivateEmail(string login)
         {
             Utils.WriteFullLine("Step 3/3: ACTIVATING", ConsoleColor.DarkRed);
-            
+
             await SemaphoreSlim.WaitAsync().ConfigureAwait(false);
 
-            List<GetMessagesResponse> messages;
+            var messages = new List<GetMessagesResponse>();
 
-            do
+            while (messages.Count == 0)
             {
                 messages = await Mailsac.GetMessages(login + "@mailsac.com");
-            } while (messages == null);
+            }
 
             var mail = messages.FirstOrDefault(m => m.Subject.Contains("Validation"));
-
-
+ 
             var link = mail?.Links.First((l) => l.Contains("creer-un-compte"));
 
-            if (link == null) return false;
+            if (link == null)
+            {
+                return false;
+            }
 
             try
             {
@@ -215,7 +217,6 @@ namespace app.Services
                 Utils.WriteFullLine("Error Activating, retrying...");
                 return false;
             }
-
             return false;
         }
     }

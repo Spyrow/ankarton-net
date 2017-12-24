@@ -56,27 +56,27 @@ namespace app.Divers
 
         private static async Task<MyProxy> ProxyTest(MyProxy proxy, int timeout = 10000)
         {
-            return proxy;
-//            try
-//            {
-//                var httpClientHandler = new HttpClientHandler
-//                {
-//                    UseProxy = true,
-//                    Proxy = proxy
-//                };
-//
-//                Utils.WriteFullLine("Testing proxy " + proxy.ProxyUri, ConsoleColor.Green);
-//
-//                var httpClient = new HttpClient(httpClientHandler) {Timeout = TimeSpan.FromMilliseconds(timeout)};
-//
-//                var response = await httpClient.GetAsync("https://www.dofus.com/fr");
-//
-//                return response.IsSuccessStatusCode ? proxy : null;
-//            }
-//            catch
-//            {
-//                return null;
-//            }
+//            return proxy;
+            try
+            {
+                var httpClientHandler = new HttpClientHandler
+                {
+                    UseProxy = true,
+                    Proxy = proxy
+                };
+
+                Utils.WriteFullLine("Testing proxy " + proxy.ProxyUri, ConsoleColor.Green);
+
+                var httpClient = new HttpClient(httpClientHandler) {Timeout = TimeSpan.FromMilliseconds(timeout)};
+
+                var response = await httpClient.GetAsync("https://www.dofus.com/fr");
+
+                return response.IsSuccessStatusCode ? proxy : null;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private static async Task<MyProxy> GenerateProxy()
